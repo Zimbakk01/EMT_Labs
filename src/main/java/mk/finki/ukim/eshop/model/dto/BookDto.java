@@ -20,4 +20,23 @@ public class BookDto {
         this.author = author;
         this.availableCopies = availableCopies;
     }
+
+    public BookDto() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public Long getAuthor() {
+        return author;
+    }
+
+    public Integer getAvailableCopies() {
+        return availableCopies;
+    }
 }

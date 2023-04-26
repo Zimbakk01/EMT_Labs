@@ -1,24 +1,46 @@
 package mk.finki.ukim.eshop.controller;
-
 import mk.finki.ukim.eshop.model.Author;
+import mk.finki.ukim.eshop.model.AuthorDto;
 import mk.finki.ukim.eshop.service.AuthorService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/authors")
+@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/api/authors")
 public class AuthorController {
+
     private final AuthorService authorService;
 
-    public AuthorController(AuthorService authorService) {
-        this.authorService = authorService;
+    AuthorController(AuthorService authorService){
+        this.authorService=authorService;
     }
 
-    @GetMapping("/list-authors")
-    public List<Author> listAuthors() {
-        return this.authorService.getAllAuthors();
+    @GetMapping
+    public List<Author> findAll(){
+        return this.authorService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Author> findById(@PathVariable Long id) {
+        return this.authorService.findById(id)
+                .map(author -> ResponseEntity.ok().body(author))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<Author> save(@RequestBody AuthorDto authorDto) {
+        return this.authorService.save(authorDto)
+                .map(author -> ResponseEntity.ok().body(author))
+                .orElseGet(() -> ResponseEntity.badRequest().build());
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity deleteById(@PathVariable Long id) {
+        this.authorService.deleteById(id);
+        if(this.authorService.findById(id).isEmpty()) return ResponseEntity.ok().build();
+        return ResponseEntity.badRequest().build();
     }
 }

@@ -2,35 +2,32 @@ package mk.finki.ukim.eshop.service;
 
 import mk.finki.ukim.eshop.model.Country;
 import mk.finki.ukim.eshop.repository.CountryRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+import java.util.Optional;
+@Service
 public class CountryServiceImpl implements CountryService {
 
-     public final CountryRepository countryRepository;
+    private final CountryRepository countryRepository;
 
-    public CountryServiceImpl(CountryRepository countryRepository) {
-        this.countryRepository = countryRepository;
+    CountryServiceImpl(CountryRepository countryRepository){
+        this.countryRepository=countryRepository;
+    }
+    @Override
+    public Optional<Country> findById(Long id) {
+        return this.countryRepository.findById(id);
     }
 
     @Override
-    public List<Country> getAllCountries() {
+    public List<Country> findAll() {
         return this.countryRepository.findAll();
     }
 
     @Override
-    public void deleteAllCountries() {
-        this.countryRepository.deleteAll();
-
-    }
-
-    @Override
-    public void deleteCountry(Long id) {
-          this.countryRepository.deleteById(id);
-    }
-
-    @Override
-    public Country getCountryById(Long id) {
-        return this.countryRepository.findById(id).orElse(null);
+    public Optional<Country> save(String name, String continent) {
+        Country country=new Country(name,continent);
+        this.countryRepository.save(country);
+        return Optional.of(country);
     }
 }

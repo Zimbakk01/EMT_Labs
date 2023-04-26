@@ -2,21 +2,26 @@ package mk.finki.ukim.eshop.service;
 
 import mk.finki.ukim.eshop.model.Book;
 import mk.finki.ukim.eshop.model.dto.BookDto;
+import mk.finki.ukim.eshop.model.enums.Category;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BookService {
-    List<Book> getAllBooks();
+    Optional<Book> findById(Long id);
+    List<Book> findAll();
+    Optional<Book> findByName(String name);
+    Optional<Book> save(String name, Category category, Long authorId, Integer availableCopies);
 
-    Book getBookById(Long id);
+    Optional<Book> save(BookDto bookDto);
 
-    Book addNewBook(BookDto book);
+    Optional<Book> edit(Long id, String name, Category category, Long authorId, Integer availableCopies);
 
-    Book editBook(Long id, BookDto book);
+    Optional<Book> edit(Long id, BookDto bookDto);
 
-    void deleteBook(Long id);
+    void takeBook(Long id);
 
-    void markBookAsTaken(Long id);
+    void deleteById(Long id);
 
 
 }

@@ -38,9 +38,9 @@ public class DataInitializer {
         authorRepository.save(author1);
         authorRepository.save(author2);
         authorRepository.save(author3);
-        bookRepository.save(new Book(15, Category.FANTASY, "How to become a millionare", author1));
-        bookRepository.save(new Book(250, Category.HISTORY, "Tajniot most", author2));
-        bookRepository.save(new Book(100, Category.DRAMA, "The Bird and the fox", author3));
+        bookRepository.save(new Book("How to become a millionare",Category.HISTORY,author1,15));
+        bookRepository.save(new Book( "Tajniot most",Category.HISTORY, author2,250));
+        bookRepository.save(new Book(  "The Bird and the fox",Category.DRAMA, author3,100));
 
     }
 }
